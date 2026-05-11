@@ -1,0 +1,186 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="ページ-1" id="nVtEmqX620JzRGMJJAri">
+    <mxGraphModel dx="958" dy="525" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-4" edge="1" parent="1" source="Qhs333HyzZ0aoUwEfdqA-2" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="Qhs333HyzZ0aoUwEfdqA-92">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="486.2499999999998" y="80" as="sourcePoint" />
+            <mxPoint x="486.2499999999998" y="90" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-2" parent="1" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.start_1;whiteSpace=wrap;" value="スタート" vertex="1">
+          <mxGeometry height="60" width="135" x="548.75" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-8" edge="1" parent="1" source="Qhs333HyzZ0aoUwEfdqA-66" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" target="Qhs333HyzZ0aoUwEfdqA-6">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="290" y="240" />
+            </Array>
+            <mxPoint x="420" y="236" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-78" connectable="0" parent="Qhs333HyzZ0aoUwEfdqA-8" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="YES" vertex="1">
+          <mxGeometry relative="1" x="-0.1186" y="2" as="geometry">
+            <mxPoint x="110" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-14" edge="1" parent="1" source="Qhs333HyzZ0aoUwEfdqA-6" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="Qhs333HyzZ0aoUwEfdqA-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;align=center;" value="&lt;div style=&quot;font-family: &amp;quot;Segoe UI&amp;quot;; font-size: 14px; line-height: 20px;&quot;&gt;PDF → 画像変換&lt;/div&gt;&lt;div style=&quot;font-family: &amp;quot;Segoe UI&amp;quot;; font-size: 14px; line-height: 20px;&quot;&gt;（必要な場合）&lt;/div&gt;" vertex="1">
+          <mxGeometry height="50" width="160" x="210" y="308" as="geometry" />
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-15" edge="1" parent="1" source="Qhs333HyzZ0aoUwEfdqA-9" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="Qhs333HyzZ0aoUwEfdqA-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;align=center;direction=west;" value="&lt;div style=&quot;font-family: &amp;quot;Segoe UI&amp;quot;; font-size: 14px; line-height: 20px;&quot;&gt;&lt;div style=&quot;text-align: start; line-height: 20px;&quot;&gt;OCR解析&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="50" width="160" x="210" y="388" as="geometry" />
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-10" edge="1" parent="1" source="Qhs333HyzZ0aoUwEfdqA-9" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="Qhs333HyzZ0aoUwEfdqA-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-12" parent="1" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;align=center;direction=west;" value="&lt;div style=&quot;font-family: &amp;quot;Segoe UI&amp;quot;; font-size: 14px; line-height: 20px;&quot;&gt;&lt;div style=&quot;line-height: 20px;&quot;&gt;&lt;div style=&quot;line-height: 20px;&quot;&gt;項目抽出&lt;/div&gt;&lt;div style=&quot;line-height: 20px;&quot;&gt;（日付・金額・店舗名）&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="50" width="160" x="210" y="468" as="geometry" />
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-19" edge="1" parent="1" source="Qhs333HyzZ0aoUwEfdqA-17" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="Qhs333HyzZ0aoUwEfdqA-24">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="470" y="598" />
+            </Array>
+            <mxPoint x="350" y="688" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-102" connectable="0" parent="Qhs333HyzZ0aoUwEfdqA-19" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="NO" vertex="1">
+          <mxGeometry relative="1" x="-0.6851" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-21" edge="1" parent="1" source="Qhs333HyzZ0aoUwEfdqA-17" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="Qhs333HyzZ0aoUwEfdqA-27">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="290" y="698" />
+            </Array>
+            <mxPoint x="290" y="798" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-22" connectable="0" parent="Qhs333HyzZ0aoUwEfdqA-21" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="YES" vertex="1">
+          <mxGeometry relative="1" x="-0.28" y="-3" as="geometry">
+            <mxPoint x="3" y="-9" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-17" parent="1" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.decision;whiteSpace=wrap;" value="&lt;div style=&quot;text-align: start; font-family: &amp;quot;Segoe UI&amp;quot;; font-size: 14px; line-height: 20px;&quot;&gt;決済年度内？&lt;/div&gt;" vertex="1">
+          <mxGeometry height="100" width="110" x="235" y="548" as="geometry" />
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-18" edge="1" parent="1" source="Qhs333HyzZ0aoUwEfdqA-12" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="Qhs333HyzZ0aoUwEfdqA-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-26" edge="1" parent="1" source="Qhs333HyzZ0aoUwEfdqA-24" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;startArrow=none;startFill=0;endArrow=none;endFill=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="470" y="688" />
+            </Array>
+            <mxPoint x="290" y="688" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-24" parent="1" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;align=center;direction=west;" value="&lt;div style=&quot;font-family: &amp;quot;Segoe UI&amp;quot;; font-size: 14px; line-height: 20px;&quot;&gt;&lt;div style=&quot;line-height: 20px;&quot;&gt;&lt;div style=&quot;line-height: 20px;&quot;&gt;警告フラグON&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="50" width="120" x="410" y="618" as="geometry" />
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-99" edge="1" parent="1" source="Qhs333HyzZ0aoUwEfdqA-27" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="Qhs333HyzZ0aoUwEfdqA-70">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-101" connectable="0" parent="Qhs333HyzZ0aoUwEfdqA-99" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="YES" vertex="1">
+          <mxGeometry relative="1" x="-0.0429" as="geometry">
+            <mxPoint x="6" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-27" parent="1" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.decision;whiteSpace=wrap;" value="&lt;div style=&quot;text-align: start; font-family: &amp;quot;Segoe UI&amp;quot;; font-size: 14px; line-height: 20px;&quot;&gt;&lt;div style=&quot;line-height: 20px;&quot;&gt;重複？&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="100" width="110" x="235" y="708" as="geometry" />
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-29" edge="1" parent="1" source="Qhs333HyzZ0aoUwEfdqA-27" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="Qhs333HyzZ0aoUwEfdqA-32">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="270" y="828" as="sourcePoint" />
+            <mxPoint x="290" y="858" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-31" connectable="0" parent="Qhs333HyzZ0aoUwEfdqA-29" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="NO" vertex="1">
+          <mxGeometry relative="1" x="-0.363" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-38" edge="1" parent="1" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="Qhs333HyzZ0aoUwEfdqA-37">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="289.9999999999998" y="888" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-32" parent="1" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;align=center;direction=west;" value="&lt;div style=&quot;font-family: &amp;quot;Segoe UI&amp;quot;; font-size: 14px; line-height: 20px;&quot;&gt;&lt;div style=&quot;line-height: 20px;&quot;&gt;&lt;div style=&quot;line-height: 20px;&quot;&gt;&lt;div style=&quot;text-align: start; line-height: 20px;&quot;&gt;ファイル名変更&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="50" width="160" x="210" y="848" as="geometry" />
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-48" edge="1" parent="1" source="Qhs333HyzZ0aoUwEfdqA-37" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="Qhs333HyzZ0aoUwEfdqA-43">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-97" edge="1" parent="1" source="Qhs333HyzZ0aoUwEfdqA-37" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="Qhs333HyzZ0aoUwEfdqA-6">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="60" y="948" />
+              <mxPoint x="60" y="333" />
+            </Array>
+            <mxPoint x="200" y="950.5" as="sourcePoint" />
+            <mxPoint x="200" y="335.5000000000001" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-37" parent="1" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;align=center;direction=west;" value="&lt;div style=&quot;font-family: &amp;quot;Segoe UI&amp;quot;; font-size: 14px; line-height: 20px;&quot;&gt;&lt;div style=&quot;line-height: 20px;&quot;&gt;&lt;div style=&quot;line-height: 20px;&quot;&gt;&lt;div style=&quot;text-align: start; line-height: 20px;&quot;&gt;保存&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="50" width="160" x="210" y="923" as="geometry" />
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-49" connectable="0" parent="1" style="group" value="" vertex="1">
+          <mxGeometry height="100" width="170" x="410" y="898" as="geometry" />
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-43" parent="Qhs333HyzZ0aoUwEfdqA-49" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;align=center;direction=west;" value="&lt;div style=&quot;font-family: &amp;quot;Segoe UI&amp;quot;; font-size: 14px; line-height: 20px;&quot;&gt;&lt;div style=&quot;line-height: 20px;&quot;&gt;&lt;div style=&quot;line-height: 20px;&quot;&gt;&lt;div style=&quot;text-align: start; line-height: 20px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="100" width="170" as="geometry" />
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-39" parent="Qhs333HyzZ0aoUwEfdqA-49" style="shape=parallelogram;html=1;strokeWidth=2;perimeter=parallelogramPerimeter;whiteSpace=wrap;rounded=1;arcSize=12;size=0.23;" value="EXCEL" vertex="1">
+          <mxGeometry height="40" width="80" x="10" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-40" parent="Qhs333HyzZ0aoUwEfdqA-49" style="shape=parallelogram;html=1;strokeWidth=2;perimeter=parallelogramPerimeter;whiteSpace=wrap;rounded=1;arcSize=12;size=0.23;" value="CSV" vertex="1">
+          <mxGeometry height="40" width="80" x="80" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-64" parent="1" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.start_1;whiteSpace=wrap;" value="エンド" vertex="1">
+          <mxGeometry height="60" width="135" x="548.75" y="1026" as="geometry" />
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-68" edge="1" parent="1" source="Qhs333HyzZ0aoUwEfdqA-66" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;" target="Qhs333HyzZ0aoUwEfdqA-64">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="415" y="216" as="sourcePoint" />
+            <mxPoint x="662.5" y="1020.0000000000002" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-79" connectable="0" parent="Qhs333HyzZ0aoUwEfdqA-68" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="NO" vertex="1">
+          <mxGeometry relative="1" x="-0.8863" y="-2" as="geometry">
+            <mxPoint x="2" y="-23" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-66" parent="1" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.decision;whiteSpace=wrap;align=center;" value="&lt;div style=&quot;font-family: &amp;quot;Segoe UI&amp;quot;; font-size: 14px; line-height: 20px;&quot;&gt;&lt;div style=&quot;line-height: 20px;&quot;&gt;次レシート&lt;/div&gt;&lt;div style=&quot;line-height: 20px;&quot;&gt;あり？&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="100" width="110" x="561.25" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-67" edge="1" parent="1" source="Qhs333HyzZ0aoUwEfdqA-92" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;" target="Qhs333HyzZ0aoUwEfdqA-66">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="486.2499999999998" y="156" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-100" edge="1" parent="1" source="Qhs333HyzZ0aoUwEfdqA-70" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;endArrow=none;endFill=0;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="60" y="758" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-70" parent="1" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;align=center;direction=west;" value="&lt;div style=&quot;font-family: &amp;quot;Segoe UI&amp;quot;; font-size: 14px; line-height: 20px;&quot;&gt;&lt;div style=&quot;line-height: 20px;&quot;&gt;&lt;div style=&quot;line-height: 20px;&quot;&gt;スキップ&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="50" width="90" x="100" y="733" as="geometry" />
+        </mxCell>
+        <mxCell id="Qhs333HyzZ0aoUwEfdqA-92" parent="1" style="shape=parallelogram;html=1;strokeWidth=2;perimeter=parallelogramPerimeter;whiteSpace=wrap;rounded=1;arcSize=12;size=0.23;" value="&lt;div style=&quot;font-family: &amp;quot;Segoe UI&amp;quot;; font-size: 14px; line-height: 20px;&quot;&gt;&lt;div style=&quot;line-height: 20px;&quot;&gt;入力&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;（レシート一覧：&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;line-height: 20px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;JPEG / PNG / PDF）&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="56" width="232.5" x="500" y="100" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
