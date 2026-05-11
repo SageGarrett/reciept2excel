@@ -1,0 +1,22 @@
+# ---- Python ----
+venv
+__pycache__
+.pyc
+.pyo
+.pyd
+
+# ---- OCR inputs (個人情報・大容量防止) ----
+.jpg
+.jpeg
+.png
+.pdf
+.tiff
+.bmp
+
+# ---- 環境変数 ----
+.env
+
+# ---- OS  Editor ----
+.DS_Store
+Thumbs.db
+.vscode
