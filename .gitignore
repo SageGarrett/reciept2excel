@@ -13,6 +13,9 @@ __pycache__
 .tiff
 .bmp
 
+# personal reference materials
+参照資料/
+
 # ---- 環境変数 ----
 .env
 
