@@ -9,7 +9,7 @@ DEBUG_DIR = TEMP_DIR / "receipts" / "ocr_debug"
 AZURE_ENDPOINT = os.getenv("AZURE_ENDPOINT")
 AZURE_KEY = os.getenv("AZURE_KEY")
 COUNT_FILE = "ocr_count.json"
-MAX_OCR_COUNT = 400
+MAX_OCR_COUNT = 500
 
 
 # 金額抽出用

@@ -15,6 +15,8 @@ __pycache__
 
 # personal reference materials
 参照資料/
+receipts/
+temp/test_receipts
 
 # ---- 環境変数 ----
 .env
