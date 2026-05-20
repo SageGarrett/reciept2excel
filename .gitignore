@@ -1,5 +1,9 @@
 # ---- Python ----
-venv
+.venv/
+venv/
+__pycache__/
+temp/
+
 __pycache__
 .pyc
 .pyo
