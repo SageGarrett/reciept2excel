@@ -1,11 +1,15 @@
+from datetime import datetime
 from pathlib import Path
+import shutil
+import zipfile
 import streamlit as st
+from config import EXCEL_DIR, MAX_OCR_COUNT, TEMP_DIR
 from processor import process_all
 from excel_exporter import export_to_excel_from_results
-from rename import rename_files
 from filter_duplicates_and_rename import filter_duplicates_and_rename
-import zipfile
-from config import EXCEL_DIR, TEMP_DIR
+from supabase import create_client
+
+supabase = create_client(st.secrets["SUPABASE_URL"], st.secrets["SUPABASE_KEY"])
 
 st.title("Receipt2Excel")
 
@@ -18,13 +22,56 @@ uploaded_files = st.file_uploader(
     accept_multiple_files=True,
 )
 
+
+def check_and_increment_usage():
+    # DBから取得
+    data = supabase.table("usage").select("*").execute()
+
+    if not data.data:
+        supabase.table("usage").insert(
+            {"id": 1, "count": 0, "month": current_month}
+        ).execute()
+
+    row = data.data[0]
+
+    count = row["count"]
+    month = row["month"]
+
+    # 今月取得
+    current_month = datetime.now().strftime("%Y-%m")
+
+    # 月が変わってたらリセット
+    if month != current_month:
+        supabase.table("usage").update({"count": 0, "month": current_month}).eq(
+            "id", 1
+        ).execute()
+
+        count = 0  # リセット後
+
+    # 上限チェック
+    if count >= MAX_OCR_COUNT:
+        return False, count
+
+    # カウント増やす
+    count += 1
+    supabase.table("usage").update({"count": count}).eq("id", 1).execute()
+
+    return True, count
+
+
 if uploaded_files:
 
     st.write(f"{len(uploaded_files)}ファイル選択")
 
     if st.button("処理開始"):
 
-        import shutil
+        ok, count = check_and_increment_usage()
+
+        if not ok:
+            st.error(f"今月の利用上限（{MAX_OCR_COUNT}回）に達しました")
+            st.stop()
+
+        st.write(f"今月の使用回数: {count} / {MAX_OCR_COUNT}")
 
         receipts_dir = TEMP_DIR / "receipts"
 

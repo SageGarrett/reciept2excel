@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 import streamlit as st
 
@@ -12,7 +11,7 @@ AZURE_ENDPOINT = st.secrets["AZURE_ENDPOINT"]
 AZURE_KEY = st.secrets["AZURE_KEY"]
 
 COUNT_FILE = "ocr_count.json"
-MAX_OCR_COUNT = 500
+MAX_OCR_COUNT = 1000
 
 
 # 金額抽出用

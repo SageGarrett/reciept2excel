@@ -1,9 +1,8 @@
 from config import DEBUG_DIR
-from util import is_in_fiscal_year
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import PatternFill
 from pathlib import Path
-from datetime import date, datetime
+from datetime import datetime
 
 
 def export_to_excel_from_results(results: list[dict], output_path: str):
@@ -140,3 +139,18 @@ def to_excel_date(v):
         return datetime.strptime(v, "%Y-%m-%d")
     except:
         return None
+
+
+def is_in_fiscal_year(dt: datetime) -> bool:
+    today = datetime.today()
+
+    # 今年の年度開始（3/1）
+    if today >= datetime(today.year, 3, 1):
+        start = datetime(today.year, 3, 1)
+    else:
+        start = datetime(today.year - 1, 3, 1)
+
+    # 次の年度開始
+    end = datetime(start.year + 1, 3, 1)
+
+    return start <= dt < end
