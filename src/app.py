@@ -24,6 +24,10 @@ uploaded_files = st.file_uploader(
 
 
 def check_and_increment_usage():
+
+    # 今月取得
+    current_month = datetime.now().strftime("%Y-%m")
+
     # DBから取得
     data = supabase.table("usage").select("*").execute()
 
@@ -36,9 +40,6 @@ def check_and_increment_usage():
 
     count = row["count"]
     month = row["month"]
-
-    # 今月取得
-    current_month = datetime.now().strftime("%Y-%m")
 
     # 月が変わってたらリセット
     if month != current_month:
