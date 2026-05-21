@@ -1,13 +1,16 @@
 import os
 from pathlib import Path
+import streamlit as st
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMP_DIR = BASE_DIR / "temp"
 RECEIPTS_DIR = TEMP_DIR / "receipts"
 EXCEL_DIR = TEMP_DIR / "excel" / "receipts.xlsx"
 DEBUG_DIR = TEMP_DIR / "receipts" / "ocr_debug"
-AZURE_ENDPOINT = os.getenv("AZURE_ENDPOINT")
-AZURE_KEY = os.getenv("AZURE_KEY")
+
+AZURE_ENDPOINT = st.secrets["AZURE_ENDPOINT"]
+AZURE_KEY = st.secrets["AZURE_KEY"]
+
 COUNT_FILE = "ocr_count.json"
 MAX_OCR_COUNT = 500
 
