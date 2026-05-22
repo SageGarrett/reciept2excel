@@ -1,76 +1,77 @@
-from datetime import datetime, date
-from PIL import Image
-from azure.ai.formrecognizer import DocumentAnalysisClient
-from azure.core.credentials import AzureKeyCredential
-from PIL import ImageOps
+from datetime import datetime
+from PIL import Image, ImageOps
 import io
-import json
-from pathlib import Path
 from pdf2image import convert_from_path
-from config import AZURE_ENDPOINT, AZURE_KEY, COUNT_FILE, MAX_OCR_COUNT
+from config import no_record, client, supabase, MAX_OCR_COUNT
 from extractors import extract_amount, extract_date, extract_shop
 from util import normalize
 
-# ====================
-# client
-# ====================
-client = DocumentAnalysisClient(
-    endpoint=AZURE_ENDPOINT, credential=AzureKeyCredential(AZURE_KEY)
-)
 
-
-# ====================
-# count管理
-# ====================
-def load_ocr_count():
-    if Path(COUNT_FILE).exists():
-        with open(COUNT_FILE, "r") as f:
-            return json.load(f).get("count", 0)
-    return 0
-
-
-def save_ocr_count(count):
-    with open(COUNT_FILE, "w") as f:
-        json.dump({"count": count}, f)
-
-
-# 初期化
-ocr_count = load_ocr_count()
-
-
-def process_all(files: list[str], progress_callback=None) -> list[dict]:
+def process_all(files: list[str]) -> list[dict]:
     results = []
-    total = len(files)
 
-    for i, path in enumerate(files):
+    # OCR使用回数管理テーブル取得（使用回数、年月）
+    load_ocr_usage = load_ocr_count()
 
-        result = run_ocr_receipt_azure(path)
+    # 月が変わってたらテーブル使用回数を0とする
+    table_month = load_ocr_usage["month"]
+    current_month = datetime.now().strftime("%Y-%m")
 
-        results.append(result)
-
-        if progress_callback:
-            progress_callback(i + 1, total)
-
-    return results
-
-
-def run_ocr_receipt_azure(path: str):
-
-    global ocr_count
-
-    if ocr_count >= MAX_OCR_COUNT:
-        print("OCR上限に到達しました（停止）")
-        return None
-
-    if path.lower().endswith(".pdf"):
-        images = convert_from_path(path)
-
+    if month_is_changed(table_month, current_month):
+        table_ocr_count = 0
     else:
-        # 画像の場合
-        images = [Image.open(path)]
+        table_ocr_count = load_ocr_usage["count"]
+
+    # ファイルごとに画像を読み込む（PDFはページごとに分割）
+    file_images_map = {}
+
+    for path in files:
+        if path.lower().endswith(".pdf"):
+
+            file_images_map[path] = convert_from_path(path)
+        else:
+            file_images_map[path] = [Image.open(path)]
+
+    # 読込データのOCR回数を見積もる
+    expected_ocr_count = sum(len(images) for images in file_images_map.values())
+
+    status = "ok"
+
+    if table_ocr_count + expected_ocr_count > MAX_OCR_COUNT:
+        status = "over_limit"
+        return [], status, table_ocr_count
+
+    # 処理件数データカウンター
+    actual_ocr_count = 0
+    # 読込データ数分
+    try:
+        for path, images in file_images_map.items():
+            try:  # OCR解析＆抽出を実行する。
+                result_text, result_count = run_ocr_receipt_azure(images)
+                actual_ocr_count += result_count
+
+                if result_text:
+                    # 抽出したファイルパス、支払い日、支払い金額、支払い先を設定
+                    result = {"image": path, **result_text}
+                    results.append(result)
+
+            except Exception as e:
+                print(f"OCR失敗: {path}: {e}")
+                status = "error"
+
+    finally:
+
+        actual_total_count = table_ocr_count + actual_ocr_count
+        save_ocr_count(actual_total_count, current_month)
+
+    return results, status, actual_total_count
+
+
+def run_ocr_receipt_azure(images: list[Image.Image]) -> dict:
 
     results = []
     full_text_list = []
+    processed_pages = 0
 
     for img in images:
 
@@ -87,6 +88,8 @@ def run_ocr_receipt_azure(path: str):
         data = img_bytes.getvalue()
 
         poller = client.begin_analyze_document("prebuilt-receipt", data)
+        print(f"processed_pages:{processed_pages}")
+        processed_pages += 1
         result = poller.result()
 
         # 全テキストを取得する（後続の補完ロジック用）
@@ -116,8 +119,6 @@ def run_ocr_receipt_azure(path: str):
 
             results.append(extracted)
 
-        ocr_count += 1
-        save_ocr_count(ocr_count)
         img.close()
 
     merged = merge_results(results)
@@ -135,9 +136,27 @@ def run_ocr_receipt_azure(path: str):
     if not merged["shop"] or merged["shop"] == "株式会社SUN":
         merged["shop"] = extract_shop(full_text)
 
-    print(f"OCR使用数: {ocr_count}")
+    return merged, processed_pages
 
-    return {"image": path, **merged}
+
+def load_ocr_count():
+    data = supabase.table("usage").select("*").execute()
+
+    if not data.data:
+        return {"count": 0, "month": None}
+
+    return data.data[0]
+
+
+def month_is_changed(table_month, current_month):
+    if table_month != current_month:
+        return True
+
+    return False
+
+
+def save_ocr_count(count, month):
+    supabase.table("usage").upsert({"id": 1, "count": count, "month": month}).execute()
 
 
 def clean_shop_name(text: str):
@@ -149,7 +168,7 @@ def clean_shop_name(text: str):
 
 
 def merge_results(results):
-
+    # 複数ページの結果をマージするロジック。日付と店名は最初に見つかったもの、金額は最大値を採用する。
     if not results:
         return {"date": None, "amount": None, "shop": None}
 

@@ -1,5 +1,12 @@
+import os
 from pathlib import Path
 import streamlit as st
+from supabase import create_client
+from azure.ai.formrecognizer import DocumentAnalysisClient
+from azure.core.credentials import AzureKeyCredential
+from dotenv import load_dotenv
+
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMP_DIR = BASE_DIR / "temp"
@@ -7,12 +14,26 @@ RECEIPTS_DIR = TEMP_DIR / "receipts"
 EXCEL_DIR = TEMP_DIR / "excel" / "receipts.xlsx"
 DEBUG_DIR = TEMP_DIR / "receipts" / "ocr_debug"
 
-AZURE_ENDPOINT = st.secrets["AZURE_ENDPOINT"]
-AZURE_KEY = st.secrets["AZURE_KEY"]
 
-COUNT_FILE = "ocr_count.json"
+def get_secret(key):
+    try:
+        return st.secrets[key]  # Cloud
+    except Exception:
+        return os.getenv(key)  # Local
+
+
+AZURE_ENDPOINT = get_secret("AZURE_ENDPOINT")
+AZURE_KEY = get_secret("AZURE_KEY")
+SUPABASE_URL = get_secret("SUPABASE_URL")
+SUPABASE_KEY = get_secret("SUPABASE_KEY")
 MAX_OCR_COUNT = 1000
 
+client = DocumentAnalysisClient(
+    endpoint=AZURE_ENDPOINT, credential=AzureKeyCredential(AZURE_KEY)
+)
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+no_record = False
 
 # 金額抽出用
 AMOUNT_PRIORITY_KEYWORDS = [
