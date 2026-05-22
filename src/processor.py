@@ -5,7 +5,7 @@ from pdf2image import convert_from_path
 from config import no_record, client, supabase, MAX_OCR_COUNT
 from extractors import extract_amount, extract_date, extract_shop
 from util import normalize
-
+import traceback    
 
 def process_all(files: list[str]) -> list[dict]:
     results = []
@@ -57,6 +57,7 @@ def process_all(files: list[str]) -> list[dict]:
 
             except Exception as e:
                 print(f"OCR失敗: {path}: {e}")
+                traceback.print_exc()
                 status = "error"
 
     finally:
