@@ -1,7 +1,6 @@
 # ---- Python ----
 .venv/
 venv/
-__pycache__/
 temp/
 
 __pycache__
@@ -16,11 +15,12 @@ __pycache__
 .pdf
 .tiff
 .bmp
+.heif
+.heic
 
 # personal reference materials
 参照資料/
 receipts/
-temp/test_receipts
 
 # ---- 環境変数 ----
 .env
@@ -29,3 +29,6 @@ temp/test_receipts
 .DS_Store
 Thumbs.db
 .vscode
+
+# ---- test resource ----
+src/test.py

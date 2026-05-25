@@ -2,10 +2,15 @@ from datetime import datetime
 from PIL import Image, ImageOps
 import io
 from pdf2image import convert_from_path
-from config import no_record, client, supabase, MAX_OCR_COUNT
+from config import client, supabase, MAX_OCR_COUNT
 from extractors import extract_amount, extract_date, extract_shop
 from util import normalize
-import traceback    
+import traceback
+import pillow_heif
+
+# HEIF保存サポートを有効化
+pillow_heif.register_heif_opener()
+
 
 def process_all(files: list[str]) -> list[dict]:
     results = []
@@ -27,8 +32,20 @@ def process_all(files: list[str]) -> list[dict]:
 
     for path in files:
         if path.lower().endswith(".pdf"):
-
+            # PDF内のページをJPEGに変換
             file_images_map[path] = convert_from_path(path)
+
+        elif path.lower().endswith((".heif", ".heic")):
+            # HEIC → JPEG変換
+            img = Image.open(path)
+
+            buffer = io.BytesIO()
+            img.convert("RGB").save(buffer, format="JPEG")
+            buffer.seek(0)
+
+            # OCRに渡しやすい形に（PILに戻す）
+            file_images_map[path] = [Image.open(buffer)]
+
         else:
             file_images_map[path] = [Image.open(path)]
 
@@ -89,8 +106,8 @@ def run_ocr_receipt_azure(images: list[Image.Image]) -> dict:
         data = img_bytes.getvalue()
 
         poller = client.begin_analyze_document("prebuilt-receipt", data)
-        print(f"processed_pages:{processed_pages}")
         processed_pages += 1
+        print(f"processed_pages:{processed_pages}")
         result = poller.result()
 
         # 全テキストを取得する（後続の補完ロジック用）
@@ -158,6 +175,17 @@ def month_is_changed(table_month, current_month):
 
 def save_ocr_count(count, month):
     supabase.table("usage").upsert({"id": 1, "count": count, "month": month}).execute()
+
+
+def convert_heif_to_jpeg(uploaded_file):
+
+    pillow_heif.register_heif_opener()
+
+    image = Image.open(uploaded_file)
+
+    # JPEGに変換
+    buffer = io.BytesIO()
+    image.convert("RGB")
 
 
 def clean_shop_name(text: str):
