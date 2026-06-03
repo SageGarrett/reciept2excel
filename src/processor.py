@@ -139,7 +139,7 @@ def run_ocr_receipt_azure(images: list[Image.Image]) -> dict:
                     else None
                 ),
             }
-
+            st.write("抽出結果:", extracted)
             results.append(extracted)
 
         img.close()
