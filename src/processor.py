@@ -1,8 +1,9 @@
 from datetime import datetime
+import streamlit as st
 from PIL import Image, ImageOps
 import io
 from pdf2image import convert_from_path
-from config import client, supabase, MAX_OCR_COUNT
+from config import AZURE_ENDPOINT, AZURE_KEY, client, supabase, MAX_OCR_COUNT
 from extractors import extract_amount, extract_date, extract_shop
 from util import normalize
 import traceback
@@ -13,6 +14,11 @@ pillow_heif.register_heif_opener()
 
 
 def process_all(files: list[str]) -> list[dict]:
+
+    st.write("ENDPOINT:", AZURE_ENDPOINT)
+    st.write("KEY exists:", AZURE_KEY is not None)
+    st.write("KEY length:", len(AZURE_KEY) if AZURE_KEY else "None")
+
     results = []
 
     # OCR使用回数管理テーブル取得（使用回数、年月）
@@ -106,7 +112,6 @@ def run_ocr_receipt_azure(images: list[Image.Image]) -> dict:
         data = img_bytes.getvalue()
 
         poller = client.begin_analyze_document("prebuilt-receipt", data)
-        print(f"{client}だよ")
         processed_pages += 1
         print(f"processed_pages:{processed_pages}")
         result = poller.result()
