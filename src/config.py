@@ -17,8 +17,10 @@ DEBUG_DIR = TEMP_DIR / "receipts" / "ocr_debug"
 
 def get_secret(key):
     try:
+        st.write(f"環境変数 {key} を取得できました。")
         return st.secrets[key]  # Cloud
     except Exception:
+        st.write(f"環境変数 {key} を取得できませんでした。")
         return os.getenv(key)  # Local
 
 
