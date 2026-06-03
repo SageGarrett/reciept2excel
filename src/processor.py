@@ -37,6 +37,11 @@ def process_all(files: list[str]) -> list[dict]:
             # PDF内のページをJPEGに変換
             file_images_map[path] = convert_from_path(path)
 
+            for i, img in enumerate(file_images_map[path]):
+                st.write(f"Page {i}")
+                st.write("size:", img.size)
+                st.image(img)
+
         elif path.lower().endswith((".heif", ".heic")):
             # HEIC → JPEG変換
             img = Image.open(path)
