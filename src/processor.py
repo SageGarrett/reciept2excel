@@ -15,9 +15,6 @@ pillow_heif.register_heif_opener()
 
 def process_all(files: list[str]) -> list[dict]:
 
-    st.write("ENDPOINT:", AZURE_ENDPOINT)
-    st.write("KEY:", AZURE_KEY)
-
     results = []
 
     # OCR使用回数管理テーブル取得（使用回数、年月）
