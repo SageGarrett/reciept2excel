@@ -16,8 +16,7 @@ pillow_heif.register_heif_opener()
 def process_all(files: list[str]) -> list[dict]:
 
     st.write("ENDPOINT:", AZURE_ENDPOINT)
-    st.write("KEY exists:", AZURE_KEY is not None)
-    st.write("KEY length:", len(AZURE_KEY) if AZURE_KEY else "None")
+    st.write("KEY:", AZURE_KEY)
 
     results = []
 
@@ -124,7 +123,7 @@ def run_ocr_receipt_azure(images: list[Image.Image]) -> dict:
 
         for doc in result.documents:
             fields = doc.fields
-
+            st.write("抽出フィールド:", fields.keys())
             extracted = {
                 "date": normalize(
                     (fields.get("TransactionDate").value)
