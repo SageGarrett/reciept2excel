@@ -106,6 +106,7 @@ def run_ocr_receipt_azure(images: list[Image.Image]) -> dict:
         data = img_bytes.getvalue()
 
         poller = client.begin_analyze_document("prebuilt-receipt", data)
+        result = poller.result(timeout=60)
         processed_pages += 1
         print(f"processed_pages:{processed_pages}")
         result = poller.result()
