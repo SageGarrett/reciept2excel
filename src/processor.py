@@ -3,7 +3,7 @@ import streamlit as st
 from PIL import Image, ImageOps
 import io
 from pdf2image import convert_from_path
-from config import AZURE_ENDPOINT, AZURE_KEY, client, supabase, MAX_OCR_COUNT
+from config import client, supabase, MAX_OCR_COUNT
 from extractors import extract_amount, extract_date, extract_shop
 from util import normalize
 import traceback
@@ -36,11 +36,6 @@ def process_all(files: list[str]) -> list[dict]:
         if path.lower().endswith(".pdf"):
             # PDF内のページをJPEGに変換
             file_images_map[path] = convert_from_path(path)
-
-            for i, img in enumerate(file_images_map[path]):
-                st.write(f"Page {i}")
-                st.write("size:", img.size)
-                st.image(img)
 
         elif path.lower().endswith((".heif", ".heic")):
             # HEIC → JPEG変換
@@ -125,7 +120,6 @@ def run_ocr_receipt_azure(images: list[Image.Image]) -> dict:
 
         for doc in result.documents:
             fields = doc.fields
-            st.write("抽出フィールド:", fields.keys())
             extracted = {
                 "date": normalize(
                     (fields.get("TransactionDate").value)
@@ -141,7 +135,6 @@ def run_ocr_receipt_azure(images: list[Image.Image]) -> dict:
                     else None
                 ),
             }
-            st.write("抽出結果:", extracted)
             results.append(extracted)
 
         img.close()
@@ -150,7 +143,6 @@ def run_ocr_receipt_azure(images: list[Image.Image]) -> dict:
 
     # 全テキストのリストを一行にまとめる
     full_text = "\n".join(full_text_list)
-
     # 補完ロジック
     if not merged["date"]:
         merged["date"] = extract_date(full_text)
@@ -160,7 +152,7 @@ def run_ocr_receipt_azure(images: list[Image.Image]) -> dict:
 
     if not merged["shop"] or merged["shop"] == "株式会社SUN":
         merged["shop"] = extract_shop(full_text)
-
+    st.write(merged)
     return merged, processed_pages
 
 

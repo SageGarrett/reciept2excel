@@ -46,6 +46,11 @@ AMOUNT_PRIORITY_KEYWORDS = [
     "領収金額",
 ]
 
+DATE_KEYWORDS = [
+    "発行日",
+    "注文日",
+]
+
 # 通貨記号
 CURRENCY_SYMBOLS = [
     "¥",

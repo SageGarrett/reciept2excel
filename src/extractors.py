@@ -1,6 +1,11 @@
 from datetime import datetime
 import re
-from config import AMOUNT_PRIORITY_KEYWORDS, CURRENCY_SYMBOLS, IGNORE_WORDS
+from config import (
+    AMOUNT_PRIORITY_KEYWORDS,
+    CURRENCY_SYMBOLS,
+    DATE_KEYWORDS,
+    IGNORE_WORDS,
+)
 
 
 def extract_amount(text: str) -> int | None:
@@ -61,8 +66,18 @@ def extract_date(text: str) -> str | None:
         l.replace(" ", "").replace("　", "") for l in text.splitlines() if l.strip()
     ]
 
+    # 日付キーワード
+    for line in lines:
+        if any(keyword in line for keyword in DATE_KEYWORDS):
+            m = re.search(r"(20\d{2})[/\-年](\d{1,2})[/\-月](\d{1,2})", line)
+            if m:
+                y, mth, d = m.groups()
+                if month_day_checker(y, mth, d):
+                    return f"{y}-{int(mth):02d}-{int(d):02d}"
+
     # 西暦
     for line in lines:
+
         m = re.search(r"(20\d{2})[/\-年](\d{1,2})[/\-月](\d{1,2})", line)
         if m:
             y, mth, d = m.groups()
