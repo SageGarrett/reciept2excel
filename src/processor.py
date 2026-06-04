@@ -152,7 +152,7 @@ def run_ocr_receipt_azure(images: list[Image.Image]) -> dict:
 
     if not merged["shop"] or merged["shop"] == "株式会社SUN":
         merged["shop"] = extract_shop(full_text)
-    st.write(merged)
+
     return merged, processed_pages
 
 
