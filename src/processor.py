@@ -1,11 +1,10 @@
 from datetime import datetime
-import streamlit as st
 from PIL import Image, ImageOps
 import io
 from pdf2image import convert_from_path
 from config import client, supabase, MAX_OCR_COUNT
 from extractors import extract_amount, extract_date, extract_shop
-from util import normalize
+from util import has_exclude_company_name, normalize
 import traceback
 import pillow_heif
 
@@ -150,7 +149,7 @@ def run_ocr_receipt_azure(images: list[Image.Image]) -> dict:
     if not merged["amount"]:
         merged["amount"] = extract_amount(full_text)
 
-    if not merged["shop"] or merged["shop"] == "株式会社SUN":
+    if not merged["shop"] or has_exclude_company_name(merged["shop"]):
         merged["shop"] = extract_shop(full_text)
 
     return merged, processed_pages

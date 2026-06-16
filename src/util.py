@@ -1,4 +1,5 @@
 from datetime import date, datetime
+import streamlit as st
 
 
 def normalize(v):
@@ -15,3 +16,13 @@ def normalize(v):
     except:
         # 文字列
         return str(v).strip()
+
+
+def has_exclude_company_name(text):
+
+    exclude_word = st.session_state.get("exclude_company_name", "")
+
+    normalized_text = text.replace(" ", "").replace("　", "")
+    normalized_exclude = exclude_word.replace(" ", "").replace("　", "")
+
+    return normalized_exclude and normalized_exclude in normalized_text

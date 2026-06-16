@@ -8,6 +8,7 @@ from excel_exporter import export_to_excel_from_results
 from filter_duplicates_and_rename import filter_duplicates_and_rename
 from supabase import create_client
 from dotenv import load_dotenv
+from datetime import datetime, timedelta
 
 load_dotenv()
 
@@ -24,12 +25,67 @@ uploaded_files = st.file_uploader(
     accept_multiple_files=True,
 )
 
+
+# 除外ワード（任意）
+with st.sidebar:
+    with st.container(border=True):
+        st.markdown(
+            """
+            **会社名**  
+            <span style='font-size:0.8em;color:gray'>※除外する自社名を入力</span>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        exclude_company_name = st.text_input(
+            label="会社名",
+            label_visibility="collapsed",
+            help="除外する自社名を入力",
+            key="exclude_company_name",
+        )
+
+# 決算期入力
+with st.sidebar:
+    with st.container(border=True):
+        st.markdown(
+            """
+            **決算期**  
+            <span style='font-size:0.8em;color:gray'>※終了年月を入力</span>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        col1, col2 = st.columns([3, 2])
+
+        with col1:
+            fiscal_year = st.number_input(
+                "年度",
+                min_value=2020,
+                max_value=2100,
+                value=2026,
+                step=1,
+                key="fiscal_year",
+            )
+
+        with col2:
+            fiscal_month = st.selectbox("月", range(1, 13), index=2, key="fiscal_month")
+
+        # 表示用の対象期間計算
+        if fiscal_month == 12:
+            start = datetime(fiscal_year, 1, 1)
+            end = datetime(fiscal_year + 1, 1, 1)
+        else:
+            start = datetime(fiscal_year - 1, fiscal_month + 1, 1)
+            end = datetime(fiscal_year, fiscal_month + 1, 1)
+        st.caption(f"決済期: {start:%Y/%m/%d} ～ {(end - timedelta(days=1)):%Y/%m/%d}")
+
 if uploaded_files:
 
     st.write(f"{len(uploaded_files)}ファイル選択")
 
     if st.button("処理開始"):
 
+        # レシート一時保存用フォルダ
         receipts_dir = TEMP_DIR / "receipts"
 
         # フォルダごと削除

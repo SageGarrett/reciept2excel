@@ -1,3 +1,4 @@
+import streamlit as st
 from config import DEBUG_DIR
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import PatternFill
@@ -98,7 +99,8 @@ def export_to_excel_from_results(results: list[dict], output_path: str):
                 if not is_in_fiscal_year(date_value):
                     date_cell.fill = yellow_fill
                     warn_flag = True
-            except:
+            except Exception as e:
+                st.error(f"決算期判定エラー: {e}")
                 warn_flag = True
 
         # 警告
@@ -142,15 +144,16 @@ def to_excel_date(v):
 
 
 def is_in_fiscal_year(dt: datetime) -> bool:
-    today = datetime.today()
 
-    # 今年の年度開始（3/1）
-    if today >= datetime(today.year, 3, 1):
-        start = datetime(today.year, 3, 1)
+    fiscal_year = st.session_state["fiscal_year"]
+    fiscal_month = st.session_state["fiscal_month"]
+
+    # 決算月の翌月が期首
+    if fiscal_month == 12:
+        start = datetime(fiscal_year, 1, 1)
+        end = datetime(fiscal_year + 1, 1, 1)
     else:
-        start = datetime(today.year - 1, 3, 1)
-
-    # 次の年度開始
-    end = datetime(start.year + 1, 3, 1)
+        start = datetime(fiscal_year - 1, fiscal_month + 1, 1)
+        end = datetime(fiscal_year, fiscal_month + 1, 1)
 
     return start <= dt < end

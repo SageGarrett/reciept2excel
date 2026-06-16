@@ -1,5 +1,6 @@
 from datetime import datetime
 import re
+from util import has_exclude_company_name
 from config import (
     AMOUNT_PRIORITY_KEYWORDS,
     CURRENCY_SYMBOLS,
@@ -133,6 +134,10 @@ def is_noise(text):
 
     # 数字・記号のみ含む
     if re.fullmatch(r"[\d\s\-\.,:/¥#\+()]+", text):
+        return True
+
+    # 除外会社名を含む
+    if has_exclude_company_name(text):
         return True
 
     # 除外キーワードを含む
