@@ -74,7 +74,11 @@ if "upload_session" not in st.session_state:
 
 session_id = st.session_state.upload_session
 try:
-    js = Path("frontend/uploader.js").read_text(encoding="utf-8")
+    # js = Path("frontend/uploader.js").read_text(encoding="utf-8")
+    BASE_DIR = Path(__file__).resolve().parent
+    js_path = BASE_DIR / "frontend" / "uploader.js"
+
+    js = js_path.read_text(encoding="utf-8")
 except Exception as e:
     st.write("cwd =", Path.cwd())
     st.write("__file__ =", __file__)
