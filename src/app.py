@@ -1,30 +1,117 @@
 from pathlib import Path
 import shutil
+import uuid
 import zipfile
 import streamlit as st
-from config import EXCEL_DIR, MAX_OCR_COUNT, SUPABASE_KEY, SUPABASE_URL, TEMP_DIR
+from config import (
+    EXCEL_DIR,
+    MAX_OCR_COUNT,
+    SUPABASE_URL,
+    SUPABASE_SECRET_KEY,
+    SUPABASE_PUBLISHABLE_KEY,
+    TEMP_DIR,
+)
 from processor import process_all
 from excel_exporter import export_to_excel_from_results
 from filter_duplicates_and_rename import filter_duplicates_and_rename
 from supabase import create_client
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
+from io import BytesIO
+import streamlit.components.v1 as components
+
+
+class SupabaseUploadedFile(BytesIO):
+    def __init__(self, file_bytes: bytes, name: str, file_type: str = ""):
+        super().__init__(file_bytes)
+        self.name = name
+        self.type = file_type
+        self.size = len(file_bytes)
+
+
+def load_uploaded_files_from_supabase(supabase, session_id):
+    uploaded_files = []
+
+    files = supabase.storage.from_("receipt_files").list(f"uploads/{session_id}")
+
+    for file in files:
+        path = f"uploads/{session_id}/{file['name']}"
+
+        file_bytes = supabase.storage.from_("receipt_files").download(path)
+
+        ext = file["name"].split(".")[-1].lower()
+
+        mime_map = {
+            "jpg": "image/jpeg",
+            "jpeg": "image/jpeg",
+            "png": "image/png",
+            "pdf": "application/pdf",
+            "heic": "image/heic",
+            "heif": "image/heif",
+        }
+
+        uploaded_files.append(
+            SupabaseUploadedFile(
+                file_bytes=file_bytes,
+                name=file["name"],
+                file_type=mime_map.get(ext, ""),
+            )
+        )
+
+    return uploaded_files
+
 
 load_dotenv()
 
-supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+supabase = create_client(SUPABASE_URL, SUPABASE_SECRET_KEY)
 
 st.title("Receipt2Excel")
 
-# 既存Excelをアップロード（任意）
-existing_excel = st.file_uploader("既存Excelをアップロード（任意）", type="xlsx")
-# レシートをアップロード（複数可）
-uploaded_files = st.file_uploader(
-    "レシートをアップロード（複数可）",
-    type=["jpg", "jpeg", "png", "pdf", "heic", "heif"],
-    accept_multiple_files=True,
-)
 
+if "upload_session" not in st.session_state:
+    st.session_state.upload_session = str(uuid.uuid4())
+
+session_id = st.session_state.upload_session
+
+js = Path("frontend/uploader.js").read_text(encoding="utf-8")
+
+# # 既存Excelをアップロード（任意）
+# existing_excel = st.file_uploader("既存Excelをアップロード（任意）", type="xlsx")
+# # レシートをアップロード（複数可）
+# uploaded_files = st.file_uploader(
+#     "レシートをアップロード（複数可）",
+#     type=["jpg", "jpeg", "png", "pdf", "heic", "heif"],
+#     accept_multiple_files=True,
+# )
+existing_excel = None
+components.html(
+    f"""
+    <div>
+        <h4>レシートをアップロード（複数可）</h4>
+
+        <input
+            type="file"
+            id="fileInput"
+            multiple
+            accept=".jpg,.jpeg,.png,.pdf,.heic,.heif"
+        />
+
+        <button onclick="uploadFiles()">
+            アップロード
+        </button>
+
+        <p id="status"></p>
+    </div>
+
+    <script>
+        const SUPABASE_URL = "{SUPABASE_URL}";
+        const SUPABASE_PUBLISHABLE_KEY = "{SUPABASE_PUBLISHABLE_KEY}";
+        const sessionId = "{session_id}";
+        {js}
+    </script>
+    """,
+    height=250,
+)
 
 # 除外ワード（任意）
 with st.sidebar:
@@ -90,92 +177,96 @@ with st.sidebar:
         st.caption(f"決済期: {start:%Y/%m/%d} ～ {(end - timedelta(days=1)):%Y/%m/%d}")
 
 
-if uploaded_files:
+if st.button("処理開始"):
+    uploaded_files = load_uploaded_files_from_supabase(supabase, session_id)
+    files = supabase.storage.from_("receipt_files").list(f"uploads/{session_id}")
 
-    st.write(f"{len(uploaded_files)}ファイル選択")
+    if not files:
+        st.warning("先にレシートをアップロードしてください")
+        st.stop()
 
-    if st.button("処理開始"):
+    uploaded_files = load_uploaded_files_from_supabase(supabase, session_id)
 
-        # レシート一時保存用フォルダ
-        receipts_dir = TEMP_DIR / "receipts"
+    # レシート一時保存用フォルダ
+    receipts_dir = TEMP_DIR / "receipts"
 
-        # フォルダごと削除
-        if receipts_dir.exists():
-            shutil.rmtree(receipts_dir)
+    # フォルダごと削除
+    if receipts_dir.exists():
+        shutil.rmtree(receipts_dir)
 
-        # 再作成
-        receipts_dir.mkdir(parents=True, exist_ok=True)
+    # 再作成
+    receipts_dir.mkdir(parents=True, exist_ok=True)
 
-        receipts_paths = []
+    receipts_paths = []
 
-        # レシート出力パス
-        for file in uploaded_files:
-            temp_path = TEMP_DIR / "receipts" / file.name
-            temp_path.parent.mkdir(parents=True, exist_ok=True)
+    # レシート出力パス
+    for file in uploaded_files:
+        temp_path = TEMP_DIR / "receipts" / file.name
+        temp_path.parent.mkdir(parents=True, exist_ok=True)
 
-            with open(temp_path, "wb") as f:
-                f.write(file.read())
+        with open(temp_path, "wb") as f:
+            f.write(file.read())
 
-            receipts_paths.append(str(temp_path))
+        receipts_paths.append(str(temp_path))
 
-        # OCR & 抽出
-        ocr_results, status, count = process_all(receipts_paths)
-        st.write(f"今月の使用回数: {count} / {MAX_OCR_COUNT}")
+    # OCR & 抽出
+    ocr_results, status, count = process_all(receipts_paths)
+    st.write(f"今月の使用回数: {count} / {MAX_OCR_COUNT}")
 
-        if status == "over_limit":
-            st.error("今月の利用上限を超えるため処理できませんでした。")
-            st.stop()
-        if status == "error":
-            st.error("OCR処理中にエラーが発生しましたため、処理ができませんでした。")
-            st.stop()
+    if status == "over_limit":
+        st.error("今月の利用上限を超えるため処理できませんでした。")
+        st.stop()
+    if status == "error":
+        st.error("OCR処理中にエラーが発生しましたため、処理ができませんでした。")
+        st.stop()
 
-        # Excel出力パス
-        excel_path = EXCEL_DIR
-        excel_path.parent.mkdir(parents=True, exist_ok=True)
+    # Excel出力パス
+    excel_path = EXCEL_DIR
+    excel_path.parent.mkdir(parents=True, exist_ok=True)
 
-        if existing_excel:
-            with open(excel_path, "wb") as f:
-                f.write(existing_excel.read())
+    if existing_excel:
+        with open(excel_path, "wb") as f:
+            f.write(existing_excel.read())
 
-        else:
-            # アップロードがない場合、古いExcel削除
-            if excel_path.exists():
-                excel_path.unlink()
+    else:
+        # アップロードがない場合、古いExcel削除
+        if excel_path.exists():
+            excel_path.unlink()
 
-        # 重複チェック＆リネーム
-        filtered_ocr_results, duplicates = filter_duplicates_and_rename(
-            excel_path, ocr_results
+    # 重複チェック＆リネーム
+    filtered_ocr_results, duplicates = filter_duplicates_and_rename(
+        excel_path, ocr_results
+    )
+
+    # Excel出力
+    export_to_excel_from_results(filtered_ocr_results, excel_path)
+
+    st.success("処理完了")
+
+    if duplicates:
+        st.warning(
+            f"重複により {len(duplicates)}/{len(uploaded_files)} 件スキップしました"
         )
 
-        # Excel出力
-        export_to_excel_from_results(filtered_ocr_results, excel_path)
+        with st.expander("重複ファイル一覧"):
+            for r, reason in duplicates:
+                filename = Path(r["image"]).name
+                st.write(f"- {filename}（{reason}）")
 
-        st.success("処理完了")
+    # ダウンロード（重要）
+    zip_path = TEMP_DIR / "Receipt2Excel.zip"
+    with zipfile.ZipFile(zip_path, "w") as z:
 
-        if duplicates:
-            st.warning(
-                f"重複により {len(duplicates)}/{len(uploaded_files)} 件スキップしました"
-            )
+        # Excel
+        z.write(excel_path, excel_path.name)
+        # レシート
+        for r in filtered_ocr_results:
+            file_path = r["image"]
+            z.write(file_path, Path(file_path).name)
 
-            with st.expander("重複ファイル一覧"):
-                for r, reason in duplicates:
-                    filename = Path(r["image"]).name
-                    st.write(f"- {filename}（{reason}）")
-
-        # ダウンロード（重要）
-        zip_path = TEMP_DIR / "Receipt2Excel.zip"
-        with zipfile.ZipFile(zip_path, "w") as z:
-
-            # Excel
-            z.write(excel_path, excel_path.name)
-            # レシート
-            for r in filtered_ocr_results:
-                file_path = r["image"]
-                z.write(file_path, Path(file_path).name)
-
-        with open(zip_path, "rb") as f:
-            st.download_button(
-                "Excel・レシートをダウンロード",
-                data=f,
-                file_name="Receipt2Excel.zip",
-            )
+    with open(zip_path, "rb") as f:
+        st.download_button(
+            "Excel・レシートをダウンロード",
+            data=f,
+            file_name="Receipt2Excel.zip",
+        )

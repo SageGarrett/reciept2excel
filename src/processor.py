@@ -195,7 +195,8 @@ def clean_shop_name(text: str):
 
 
 def merge_results(results):
-    # 複数ページの結果をマージするロジック。日付と店名は最初に見つかったもの、金額は最大値を採用する。
+    # 複数ページの結果をマージするロジック。
+    # 日付と店名は最初に見つかったもの、金額は最大値を採用する。
     if not results:
         return {"date": None, "amount": None, "shop": None}
 

@@ -25,13 +25,14 @@ def get_secret(key):
 AZURE_ENDPOINT = get_secret("AZURE_ENDPOINT")
 AZURE_KEY = get_secret("AZURE_KEY")
 SUPABASE_URL = get_secret("SUPABASE_URL")
-SUPABASE_KEY = get_secret("SUPABASE_KEY")
+SUPABASE_PUBLISHABLE_KEY = get_secret("SUPABASE_PUBLISHABLE_KEY")
+SUPABASE_SECRET_KEY = get_secret("SUPABASE_SECRET_KEY")
 MAX_OCR_COUNT = 1000
 
 client = DocumentAnalysisClient(
     endpoint=AZURE_ENDPOINT, credential=AzureKeyCredential(AZURE_KEY)
 )
-supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+supabase = create_client(SUPABASE_URL, SUPABASE_SECRET_KEY)
 
 no_record = False
 
