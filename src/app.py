@@ -57,12 +57,23 @@ with st.sidebar:
 
         col1, col2 = st.columns([3, 2])
 
+        now = datetime.now()
+
+        # デフォルト決算月
+        default_fiscal_month = 3
+
+        # 3月決算で、4月以降なら翌年
+        if now.month > default_fiscal_month:
+            default_fiscal_year = now.year + 1
+        else:
+            default_fiscal_year = now.year
+
         with col1:
             fiscal_year = st.number_input(
                 "年度",
                 min_value=2020,
                 max_value=2100,
-                value=2026,
+                value=default_fiscal_year,
                 step=1,
                 key="fiscal_year",
             )
