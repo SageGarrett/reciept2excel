@@ -22,7 +22,7 @@ existing_excel = st.file_uploader("既存Excelをアップロード（任意）"
 uploaded_files = st.file_uploader(
     "レシートをアップロード（複数可）",
     type=["jpg", "jpeg", "png", "pdf", "heic", "heif"],
-    accept_multiple_files=False,
+    accept_multiple_files=True,
 )
 st.write("uploaded_files:", uploaded_files)
 
