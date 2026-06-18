@@ -1,5 +1,6 @@
 from pathlib import Path
 import shutil
+import traceback
 import uuid
 import zipfile
 import streamlit as st
@@ -72,8 +73,15 @@ if "upload_session" not in st.session_state:
     st.session_state.upload_session = str(uuid.uuid4())
 
 session_id = st.session_state.upload_session
-
-js = Path("frontend/uploader.js").read_text(encoding="utf-8")
+try:
+    js = Path("frontend/uploader.js").read_text(encoding="utf-8")
+except Exception as e:
+    st.write("cwd =", Path.cwd())
+    st.write("__file__ =", __file__)
+    st.write("frontend exists =", Path("frontend").exists())
+    st.write("src/frontend exists =", Path("src/frontend").exists())
+    st.code(traceback.format_exc())
+    st.stop()
 
 # # 既存Excelをアップロード（任意）
 # existing_excel = st.file_uploader("既存Excelをアップロード（任意）", type="xlsx")
