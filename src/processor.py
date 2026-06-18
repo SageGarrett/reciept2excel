@@ -69,7 +69,7 @@ def process_all(files: list[str]) -> list[dict]:
                 actual_ocr_count += result_count
 
                 if result_text:
-                    # 抽出したファイルパス、支払い日、支払い金額、支払い先を設定
+                    # 抽出したファイルパス、日付、金額、支払先を設定
                     result = {"image": path, **result_text}
                     results.append(result)
 

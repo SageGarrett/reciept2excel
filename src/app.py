@@ -24,7 +24,7 @@ uploaded_files = st.file_uploader(
     type=["jpg", "jpeg", "png", "pdf", "heic", "heif"],
     accept_multiple_files=True,
 )
-
+st.write("uploaded_files:", uploaded_files)
 
 # 除外ワード（任意）
 with st.sidebar:
@@ -32,7 +32,7 @@ with st.sidebar:
         st.markdown(
             """
             **会社名**  
-            <span style='font-size:0.8em;color:gray'>※除外する自社名を入力</span>
+            <span style='font-size:0.8em;color:gray'>※支払先の出力の対象外にする</span>
             """,
             unsafe_allow_html=True,
         )
@@ -40,7 +40,6 @@ with st.sidebar:
         exclude_company_name = st.text_input(
             label="会社名",
             label_visibility="collapsed",
-            help="除外する自社名を入力",
             key="exclude_company_name",
         )
 

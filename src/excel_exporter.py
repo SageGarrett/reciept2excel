@@ -8,7 +8,7 @@ from datetime import datetime
 
 def export_to_excel_from_results(results: list[dict], output_path: str):
 
-    headers = ["ファイル名", "支払い日", "支払い金額", "支払い先", "警告"]
+    headers = ["ファイル名", "日付", "金額", "支払先", "警告"]
 
     # 初回（ファイルがない）
     if not Path(output_path).exists():
@@ -31,9 +31,9 @@ def export_to_excel_from_results(results: list[dict], output_path: str):
     col_map = {cell.value: idx for idx, cell in enumerate(ws[1], start=1)}
 
     file_col = col_map.get("ファイル名")
-    date_col = col_map.get("支払い日")
-    amount_col = col_map.get("支払い金額")
-    shop_col = col_map.get("支払い先")
+    date_col = col_map.get("日付")
+    amount_col = col_map.get("金額")
+    shop_col = col_map.get("支払先")
     warning_col = col_map.get("警告")
 
     if None in (date_col, amount_col, shop_col, warning_col):
@@ -128,7 +128,7 @@ def export_to_excel_from_results(results: list[dict], output_path: str):
 
                 max_length = max(max_length, length)
 
-        ws.column_dimensions[col_letter].width = max_length + 2
+        ws.column_dimensions[col_letter].width = max_length + 3
 
     wb.save(output_path)
 
