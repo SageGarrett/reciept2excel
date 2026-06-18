@@ -23,7 +23,6 @@ uploaded_files = st.file_uploader(
     "レシートをアップロード（複数可）",
     type=["jpg", "jpeg", "png", "pdf", "heic", "heif"],
     accept_multiple_files=True,
-    help="Driveから直接アップロードできない場合は、端末に保存してからお試しください",
 )
 
 
@@ -32,7 +31,7 @@ with st.sidebar:
     with st.container(border=True):
         st.markdown(
             """
-            **会社名**
+            **会社名**  
             <span style='font-size:0.8em;color:gray'>※支払先の出力の対象外にする</span>
             """,
             unsafe_allow_html=True,
@@ -49,7 +48,7 @@ with st.sidebar:
     with st.container(border=True):
         st.markdown(
             """
-            **決算期**
+            **決算期**  
             <span style='font-size:0.8em;color:gray'>※終了年月を入力</span>
             """,
             unsafe_allow_html=True,
