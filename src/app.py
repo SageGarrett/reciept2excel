@@ -23,8 +23,9 @@ uploaded_files = st.file_uploader(
     "レシートをアップロード（複数可）",
     type=["jpg", "jpeg", "png", "pdf", "heic", "heif"],
     accept_multiple_files=True,
+    help="Driveから直接アップロードできない場合は、端末に保存してからお試しください",
 )
-st.write("uploaded_files:", uploaded_files)
+
 
 # 除外ワード（任意）
 with st.sidebar:
@@ -77,6 +78,7 @@ with st.sidebar:
             start = datetime(fiscal_year - 1, fiscal_month + 1, 1)
             end = datetime(fiscal_year, fiscal_month + 1, 1)
         st.caption(f"決済期: {start:%Y/%m/%d} ～ {(end - timedelta(days=1)):%Y/%m/%d}")
+
 
 if uploaded_files:
 
