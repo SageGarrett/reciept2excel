@@ -2,26 +2,31 @@
     border: 2px dashed #cfcfcf;
     border-radius: 16px;
     min-height: 37px;
-    width: 600px;
+    width: 100%;
+    max-width: 600px;
     padding: 1em;
     text-align: center;
     position: relative;
     background: #fafafa;
     cursor: pointer;
-    margin-bottom: 24px;
+    margin: 0 auto 24px;
+    box-sizing: border-box;
 }
 
 .upload-box {
     border: 2px dashed #cfcfcf;
     border-radius: 16px;
     height: 100px;
-    width: 600px;
+    width: 100%;
+    max-width: 600px;
     padding: 1em;
     text-align: center;
     position: relative;
     background: #fafafa;
     cursor: pointer;
     transition: all 0.2s ease;
+    margin: 0 auto;
+    box-sizing: border-box;
 }
 
 .excel-box:hover {
