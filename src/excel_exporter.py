@@ -1,12 +1,14 @@
 import streamlit as st
-from config import DEBUG_DIR
+from config import DEBUG_DIR, TEMP_DIR
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import PatternFill
 from pathlib import Path
 from datetime import datetime
 
 
-def export_to_excel_from_results(results: list[dict], output_path: str):
+def export_to_excel_from_results(
+    results: list[dict], output_path: str, session_id: str
+):
 
     headers = ["ファイル名", "日付", "金額", "支払先", "警告"]
 
@@ -67,7 +69,7 @@ def export_to_excel_from_results(results: list[dict], output_path: str):
         shop_cell.value = shop_value
 
         # === デバッグ出力 ===
-        debug_dir = DEBUG_DIR
+        debug_dir = TEMP_DIR / session_id / "ocr_debug"
         debug_dir.mkdir(exist_ok=True)
 
         debug_path = debug_dir / (image_name + ".txt")

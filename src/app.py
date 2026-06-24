@@ -247,7 +247,7 @@ if button:
         )
 
         # Excel出力
-        export_to_excel_from_results(filtered_ocr_results, excel_path)
+        export_to_excel_from_results(filtered_ocr_results, excel_path, session_id)
 
         st.success("処理完了")
         if duplicates:
