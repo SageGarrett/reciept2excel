@@ -2,6 +2,11 @@ from datetime import datetime, timedelta
 from io import BytesIO
 from config import BUCKET_NAME
 
+try:
+    from zoneinfo import ZoneInfo
+except Exception:
+    ZoneInfo = None
+
 
 class SupabaseUploadedFile(BytesIO):
     def __init__(self, file_bytes: bytes, name: str, file_type: str = ""):
@@ -51,16 +56,24 @@ def cleanup_old_sessions(supabase):
     print(session_dirs)
 
     # 保持期間：1時間
-    threshold = datetime.now() - timedelta(hours=1)
+    # Use Asia/Tokyo timezone if available so comparisons match session names created in JST.
+    tz = ZoneInfo("Asia/Tokyo") if ZoneInfo is not None else None
+    if tz is not None:
+        threshold = datetime.now(tz) - timedelta(hours=1)
+    else:
+        threshold = datetime.now() - timedelta(hours=1)
 
     for session_dir in session_dirs:
         session_name = session_dir["name"]
 
         try:
             dt = datetime.strptime(session_name, "%Y%m%d_%H%M%S_%f")
-
         except ValueError:
             continue
+
+        # If using a timezone-aware threshold, make the parsed dt timezone-aware
+        if tz is not None:
+            dt = dt.replace(tzinfo=tz)
 
         if dt < threshold:
             cleanup_supabase_files(supabase, session_name)
