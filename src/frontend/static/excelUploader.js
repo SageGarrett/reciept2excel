@@ -71,6 +71,7 @@ async function uploadExcel(file) {
     overlay.classList.remove("hidden");
 
     try {
+        console.log(`Uploading Excel: ${file.name}, size: ${file.size}, type: ${file.type}`);
         const path = `${sessionId}/excel/existing.xlsx`;
 
         const result = await client.storage

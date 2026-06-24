@@ -74,9 +74,11 @@ async function uploadFiles(files) {
 
     const overlay = document.getElementById("loadingOverlay");
     overlay.classList.remove("hidden");
+    status.textContent = "";
 
     try {
         for (const file of files) {
+            console.log(`Uploading receipt: ${file.name}, size: ${file.size}, type: ${file.type}`);
             const ext = file.name.split(".").pop();
             const storageName = `${crypto.randomUUID()}.${ext}`;
             const path = `${sessionId}/receipts/${storageName}`;
@@ -100,8 +102,8 @@ async function uploadFiles(files) {
         overlay.classList.add("hidden");
     } catch (err) {
         console.error("upload error:", err);
-        status.textContent = "アップロード失敗";
-        return;
+        status.textContent = `アップロード失敗: ${err.message || JSON.stringify(err)}`;
+        overlay.classList.add("hidden");
     }
 }
 
