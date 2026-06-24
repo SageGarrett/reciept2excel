@@ -11,6 +11,11 @@ from filter_duplicates_and_rename import filter_duplicates_and_rename
 from supabase import create_client
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
+
+try:
+    from zoneinfo import ZoneInfo
+except Exception:
+    ZoneInfo = None
 import streamlit.components.v1 as components
 from frontend.frontend_utils import load_upload_widget_html
 from supabase_utils import (
@@ -126,7 +131,19 @@ with st.sidebar:
 
 # セッションが未作成の場合は新たに作成する。
 if "upload_session" not in st.session_state:
-    st.session_state.upload_session = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+    # Use Japan time (JST) for session names so timestamps match local expectations.
+    try:
+        if ZoneInfo is not None:
+            tz = ZoneInfo("Asia/Tokyo")
+            st.session_state.upload_session = datetime.now(tz).strftime(
+                "%Y%m%d_%H%M%S_%f"
+            )
+        else:
+            st.session_state.upload_session = datetime.now().strftime(
+                "%Y%m%d_%H%M%S_%f"
+            )
+    except Exception:
+        st.session_state.upload_session = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
 
 session_id = st.session_state.upload_session
 
