@@ -171,16 +171,26 @@ async function removeFile(fileObj) {
         f => f.storagePath !== fileObj.storagePath
     );
 
-    try {
-        await syncMetadata();
-    } catch (err) {
-        console.error("failed to sync metadata after remove:", err);
-    }
-
     renderFileList(window.uploadedFiles);
 
     if (window.uploadedFiles.length === 0) {
         document.getElementById("placeholder").style.display = "flex";
+        // Delete metadata.json when no files remain
+        try {
+            await client.storage
+                .from(bucket_name)
+                .remove([`${sessionId}/metadata.json`]);
+            console.log("metadata.json deleted");
+        } catch (err) {
+            console.error("failed to delete metadata.json:", err);
+        }
+    } else {
+        // Only sync metadata if files remain
+        try {
+            await syncMetadata();
+        } catch (err) {
+            console.error("failed to sync metadata after remove:", err);
+        }
     }
 
     const fileInput = document.getElementById("fileInput");
