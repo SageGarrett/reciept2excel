@@ -1,7 +1,7 @@
 .excel-box {
     border: 2px dashed #cfcfcf;
     border-radius: 16px;
-    min-height: 37px;
+    min-height: 73px;
     width: 100%;
     max-width: 600px;
     padding: 1em;
@@ -16,7 +16,7 @@
 .upload-box {
     border: 2px dashed #cfcfcf;
     border-radius: 16px;
-    height: 100px;
+    height: 135px;
     width: 100%;
     max-width: 600px;
     padding: 1em;
