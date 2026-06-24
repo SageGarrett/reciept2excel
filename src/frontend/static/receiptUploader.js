@@ -82,11 +82,6 @@ async function uploadFiles(files) {
             const ext = file.name.split(".").pop();
             const storageName = `${crypto.randomUUID()}.${ext}`;
             const path = `${sessionId}/receipts/${storageName}`;
-            window.uploadedFiles.push({
-                originalName: file.name,
-                storagePath: path,
-                file: file
-            });
 
             const result = await client.storage
                 .from(bucket_name)
@@ -95,6 +90,13 @@ async function uploadFiles(files) {
             if (result.error) {
                 throw result.error;
             }
+
+            // Only add to array after successful upload
+            window.uploadedFiles.push({
+                originalName: file.name,
+                storagePath: path,
+                file: file
+            });
         }
         await syncMetadata();
 
