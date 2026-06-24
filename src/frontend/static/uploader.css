@@ -1,0 +1,207 @@
+.excel-box {
+    border: 2px dashed #cfcfcf;
+    border-radius: 16px;
+    min-height: 37px;
+    width: 600px;
+    padding: 1em;
+    text-align: center;
+    position: relative;
+    background: #fafafa;
+    cursor: pointer;
+    margin-bottom: 24px;
+}
+
+.upload-box {
+    border: 2px dashed #cfcfcf;
+    border-radius: 16px;
+    height: 100px;
+    width: 600px;
+    padding: 1em;
+    text-align: center;
+    position: relative;
+    background: #fafafa;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.excel-box:hover {
+    border-color: #4f46e5;
+    background: #fff7f7;
+}
+
+.excel-box.dragover {
+    border-color: #ff4b4b;
+    background: #fff0f0;
+    transform: scale(1.01);
+}
+
+.upload-box:hover {
+    border-color: #4f46e5;
+    background: #fff7f7;
+}
+
+.upload-box.dragover {
+    border-color: #ff4b4b;
+    background: #fff0f0;
+    transform: scale(1.01);
+}
+
+.upload-title {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.upload-subtitle {
+    color: #666;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.upload-icon {
+    font-size: 24px;
+}
+.upload-box.dragging {
+    border-color: #4f46e5;
+    background: #f8f7ff;
+}
+#excelFileList {
+    width: 100%;
+    max-height: 100px;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-content: flex-start;
+}
+#fileList {
+    width: 100%;
+    max-height: 100px;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-content: flex-start;
+}
+.excel-file-item {
+    padding: 8px 12px;
+    background: #f7f7f7;
+    border-radius: 8px;
+    font-size: 14px;
+
+    white-space: nowrap;
+    width: fit-content;
+    max-width: 100%;
+    max-width: 550px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+.file-item {
+    padding: 8px 12px;
+    background: #f7f7f7;
+    border-radius: 8px;
+    font-size: 14px;
+
+    white-space: nowrap;
+    width: fit-content;
+    max-width: 100%;
+    max-width: 550px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+.file-name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+#excelPlaceholder {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#placeholder {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#excelLoadingOverlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.75);
+    border-radius: inherit;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+
+    z-index: 10;
+}
+#loadingOverlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.75);
+    border-radius: inherit;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+
+    z-index: 10;
+}
+.spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ddd;
+    border-top-color: #666;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+.hidden {
+    display: none !important;
+}
+
+.remove-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.remove-btn:hover {
+    color: #e53935;
+    transform: scale(1.1);
+}

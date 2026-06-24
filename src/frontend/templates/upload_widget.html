@@ -1,0 +1,62 @@
+<style>
+{{css}}
+</style>
+<div class="upload-title">📊 既存Excel（任意）</div>
+
+<div class="excel-box" id="excelDropZone">
+
+    <div id="excelLoadingOverlay" class="hidden">
+        <div class="spinner"></div>
+        <div>アップロード中...</div>
+    </div>
+
+    <div id="excelPlaceholder">
+        <div class="upload-subtitle">
+            Excelファイルをドラッグ＆ドロップ、またはクリックして選択
+        </div>
+    </div>
+
+    <input
+        type="file"
+        id="excelInput"
+        accept=".xlsx,.xls"
+        hidden
+    />
+
+    <div id="excelFileList"></div>
+</div>
+<div class="upload-title">📄レシートをアップロード（複数可）</div>
+<div class="upload-box" id="dropZone">
+    <div id="loadingOverlay" class="hidden">
+        <div class="spinner"></div>
+        <div>アップロード中...</div>
+    </div>
+    <div id="placeholder">
+        <div class="upload-subtitle">
+            ファイルをドラッグ＆ドロップ、またはクリックして選択
+        </div>
+    </div>
+    
+    <input
+    type="file"
+    id="fileInput"
+    multiple
+    accept=".jpg,.jpeg,.png,.pdf,.heic,.heif"
+    hidden
+    />
+    
+    <div id="fileList"></div>
+    <p id="status"></p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<script>
+const SUPABASE_URL = "{{SUPABASE_URL}}";
+const SUPABASE_PUBLISHABLE_KEY = "{{SUPABASE_PUBLISHABLE_KEY}}";
+const sessionId = "{{session_id}}";
+const BUCKET_NAME = "{{BUCKET_NAME}}";
+const uuid = "{{uuid}}"
+
+{{js}}
+</script>

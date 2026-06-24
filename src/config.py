@@ -10,9 +10,8 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMP_DIR = BASE_DIR / "temp"
-RECEIPTS_DIR = TEMP_DIR / "receipts"
-EXCEL_DIR = TEMP_DIR / "excel" / "receipts.xlsx"
 DEBUG_DIR = TEMP_DIR / "receipts" / "ocr_debug"
+BUCKET_NAME = "Uploads"
 
 
 def get_secret(key):
