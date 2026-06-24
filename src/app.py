@@ -50,8 +50,11 @@ st.markdown(
 }
 </style>
 
-<div class="custom-title">レ仕訳</div>
 """,
+    unsafe_allow_html=True,
+)
+st.markdown(
+    "<h1 style='text-align:center; margin: 0 1rem 1rem;'>レ仕訳</h1>",
     unsafe_allow_html=True,
 )
 
