@@ -101,6 +101,7 @@ async function uploadFiles(files) {
     } catch (err) {
         console.error("upload error:", err);
         status.textContent = "アップロード失敗";
+        return;
     }
 }
 
