@@ -37,16 +37,19 @@ st.markdown(
     """
 <style>
 .block-container {
-    max-width: 900px;
+    max-width: 640px;
     margin: auto;
     padding-top: 4rem;
-    padding-left: 4rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
-.custom-title {
+.page-title {
+    max-width: 600px;
+    margin: 0 auto 1rem;
+    text-align: center;
     font-size: 2.2rem;
     font-weight: 700;
-    margin-left: 17rem;
 }
 </style>
 
@@ -54,7 +57,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 st.markdown(
-    "<h1 style='text-align:center; margin: 0 1rem 1rem;'>レ仕訳</h1>",
+    "<div class='page-title'>レ仕訳</div>",
     unsafe_allow_html=True,
 )
 

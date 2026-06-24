@@ -60,6 +60,10 @@
     color: #666;
     font-size: 12px;
     line-height: 1.5;
+    white-space: normal;
+    max-width: 100%;
+    word-break: break-word;
+    padding: 0 4px;
 }
 
 .upload-icon {
